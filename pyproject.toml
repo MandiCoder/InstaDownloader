@@ -1,0 +1,13 @@
+[project]
+name = "insta-downloader"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "flask>=3.1.0",
+    "instaloader>=4.14.1",
+    "pyrogram>=2.0.106",
+    "python-dotenv>=1.0.1",
+    "tgcrypto>=1.2.5",
+]
