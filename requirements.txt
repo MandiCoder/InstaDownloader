@@ -1,0 +1,5 @@
+flask
+instaloader
+pyrogram
+python-dotenv
+tgcrypto
