@@ -32,7 +32,11 @@ def descargar_reel(url, msg: Message = None):
 
 @app.on_message(filters.command("start"))
 def saludar(app, msg:Message):
-    msg.reply(f"**Hola {msg.from_user.first_name} 😊**\n\n__Este bot ha sido creado por @MandiCoder__")
+    text = f"""**
+¡Hola! {msg.from_user.first_name} 🌟 Bienvenido a InstaTG. Aquí puedes descargar reels de Instagram de manera rápida y sencilla. 🎥✨
+Solo envía el enlace del reel que deseas descargar y listo 🚀. ¡Que disfrutes tus videos favoritos! 🎉
+Si necesitas ayuda, no dudes en preguntar al creador __@MandiCoder__.**"""
+    msg.reply(text)
     
 
 @app.on_message(filters.regex("http"))
