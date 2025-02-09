@@ -9,7 +9,7 @@ class Logs():
         dotenv.load_dotenv()
         
         self._header = {
-            "Authorization": f"Bearer {os.getenv("NOTION_TOKEN")}",
+            "Authorization": f"Bearer {os.getenv('NOTION_TOKEN')}",
             "Content-Type": "application/json",
             "Notion-Version": "2022-06-28"
         }
