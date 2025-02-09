@@ -3,3 +3,4 @@ instaloader
 pyrogram
 python-dotenv
 tgcrypto
+requests

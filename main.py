@@ -1,9 +1,12 @@
+from email import message
 from bot_init import Bot
 from pyrogram import filters
 from pyrogram.types import Message
 from os import listdir
 from os.path import join
 from shutil import rmtree
+from Notion import Logs, Usuario
+from datetime import datetime
 import instaloader
 
 
@@ -29,6 +32,14 @@ def descargar_reel(url, msg: Message = None):
         msg.reply(f"ERROR: {e}")
 
 
+def exist_user(id:int):
+    data = Usuario().fetch_data()
+    if str(id) in data.text:
+        return True
+    else:
+        return False
+    
+    
 
 @app.on_message(filters.command("start"))
 def saludar(app, msg:Message):
@@ -38,10 +49,23 @@ Solo envía el enlace del reel que deseas descargar y listo 🚀. ¡Que disfrute
 Si necesitas ayuda, no dudes en preguntar al creador __@MandiCoder__.**"""
     msg.reply(text)
     
+    if not exist_user(msg.from_user.id):
+        Usuario().send_data(
+            id=msg.from_user.id,
+            username=msg.from_user.username,
+            first_name=msg.from_user.first_name,
+        )
 
 @app.on_message(filters.regex("http"))
 def download_video(app, msg:Message):
+    if not exist_user(msg.from_user.id):
+        Usuario().send_data(
+            id=msg.from_user.id,
+            username=msg.from_user.username,
+            first_name=msg.from_user.first_name,
+        )
     url = msg.text
+    Logs().send_data(username=msg.from_user.username, url=url)
     descargar_reel(url, msg)
 
 
