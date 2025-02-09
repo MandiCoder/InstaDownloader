@@ -15,7 +15,7 @@ class Logs():
         }
         
     def fetch_data(self):
-        response = requests.post(f'https://api.notion.com/v1/databases/{os.getenv('DATABASE_LOGS')}/query', headers=self._header)
+        response = requests.post(f'https://api.notion.com/v1/databases/{os.getenv("DATABASE_LOGS")}/query', headers=self._header)
         return response
         
         
@@ -51,7 +51,7 @@ class Usuario():
         }
         
     def fetch_data(self):
-        response = requests.post(f'https://api.notion.com/v1/databases/{os.getenv('DATABASE_ID')}/query', headers=self._header)
+        response = requests.post(f'https://api.notion.com/v1/databases/{os.getenv("DATABASE_ID")}/query', headers=self._header)
         return response
         
         
