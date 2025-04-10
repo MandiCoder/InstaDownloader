@@ -4,3 +4,4 @@ pyrogram
 python-dotenv
 tgcrypto
 requests
+yt_dlp
