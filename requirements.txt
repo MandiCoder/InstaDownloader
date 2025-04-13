@@ -1,7 +1,0 @@
-flask
-instaloader
-pyrogram
-python-dotenv
-tgcrypto
-requests
-yt_dlp

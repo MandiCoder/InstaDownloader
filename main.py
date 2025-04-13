@@ -13,12 +13,26 @@ import subprocess
 
 bot = Bot()
 app = bot.app
-# https://www.facebook.com/share/r/1EFMRMQGDS/
-# https://www.instagram.com/luciareinarodriguezpari/reel/C-c_PRJJ6Tl/?igsh=amQzM21xbGVhZDBs
 def descargar_video(url, msg: Message = None):
     sms = msg.reply("**⬇️ DESCARGANDO VIDEO...**")
     try:
-        if "www.facebook.com" in url:
+        if "www.instagram.com" in url:
+            L = instaloader.Instaloader()
+            reel_code = url.split("/reel/")[1].split("/")[0]
+            post = instaloader.Post.from_shortcode(L.context, reel_code)
+            id = post.mediaid
+            caption = post.caption
+            L.download_post(post, target=id)
+            video = join(str(id), [vid for vid in listdir(str(id)) if vid.endswith('mp4')][0])
+            thumb = join(str(id), [vid for vid in listdir(str(id)) if vid.endswith('jpg')][0])
+            sms.edit_text("**⬆️ SUBIENDO VIDEO...**")
+
+            msg.reply_video(video=video, caption=caption, thumb=thumb, quote=True)
+            sms.delete()
+            rmtree(str(id))
+            unlink(video)
+            unlink(thumb)
+        else:
             ydl_opts = {
                 'format': 'bestvideo+bestaudio/best',
                 'outtmpl': '%(id)s.%(ext)s',
@@ -35,27 +49,13 @@ def descargar_video(url, msg: Message = None):
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL
             )
-        
-        elif "www.instagram.com" in url:
-            L = instaloader.Instaloader()
-            reel_code = url.split("/reel/")[1].split("/")[0]
-            post = instaloader.Post.from_shortcode(L.context, reel_code)
-            id = post.mediaid
-            caption = post.caption
-            L.download_post(post, target=id)
-            video = join(str(id), [vid for vid in listdir(str(id)) if vid.endswith('mp4')][0])
-            thumb = join(str(id), [vid for vid in listdir(str(id)) if vid.endswith('jpg')][0])
-
-        sms.edit_text("**⬆️ SUBIENDO VIDEO...**")
-        msg.reply_video(video=video, caption=caption, thumb=thumb, quote=True)
-        sms.delete()
-        rmtree(str(id))
-        unlink(video)
-        unlink(thumb)
-
+            sms.edit_text("**⬆️ SUBIENDO VIDEO...**")
+            msg.reply_video(video=video, caption=caption, thumb=thumb, quote=True)
+            sms.delete()
+            unlink(video)
+            unlink(thumb)
     except Exception as e:
         msg.reply(f"ERROR: {e}")
-
 
 def exist_user(id:int):
     data = Usuario().fetch_data()
@@ -68,7 +68,7 @@ def exist_user(id:int):
 @app.on_message(filters.command("start"))
 def saludar(app, msg:Message):
     text = f"""**
-¡Hola! {msg.from_user.first_name} 🌟 Bienvenido a InstaTG. Aquí puedes descargar reels de Instagram y Facebook de manera rápida y sencilla. 🎥✨
+¡Hola! {msg.from_user.first_name} 🌟 Bienvenido a InstaTG. Aquí puedes descargar videos de todas las redes sociales de manera rápida y sencilla. 🎥✨
 Solo envía el enlace del video que deseas descargar y listo 🚀. ¡Que disfrutes tus videos favoritos! 🎉
 Si necesitas ayuda, no dudes en preguntar al creador __@MandiCoder__.**"""
     msg.reply(text)
