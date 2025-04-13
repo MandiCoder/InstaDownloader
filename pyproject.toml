@@ -6,7 +6,7 @@ authors = ["mandicoder <mandicoder@proton.me>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.10"
 pyrogram = "^2.0.106"
 tgcrypto = "^1.2.5"
 yt-dlp = "^2025.3.31"
