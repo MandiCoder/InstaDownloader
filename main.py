@@ -7,13 +7,29 @@ from os.path import join
 from shutil import rmtree
 from Notion import Logs, Usuario
 import instaloader
+import requests
 from yt_dlp import YoutubeDL
 import subprocess
 
 
 bot = Bot()
 app = bot.app
+url_gotify = "https://rey-gotify.onrender.com/message?token=AyNX0icET1hUs7p"
 def descargar_video(url, msg: Message = None):
+    data = {
+        "title": "Video enviado al Bot",
+        "message": "Video enviado por " + msg.from_user.username + "\nURL enviada: " + url,
+        "priority": 5,
+        "extras": {
+            "client::notification": {
+                "bigImageUrl": "https://i.pinimg.com/1200x/f3/1a/ea/f31aea15e6088d3fa68d4022f3d6097a.jpg",
+                "click": {
+                    "url": url
+                }
+            }
+        }
+    }
+    
     sms = msg.reply("**⬇️ DESCARGANDO VIDEO...**")
     try:
         if "www.instagram.com" in url:
@@ -27,7 +43,10 @@ def descargar_video(url, msg: Message = None):
             thumb = join(str(id), [vid for vid in listdir(str(id)) if vid.endswith('jpg')][0])
             sms.edit_text("**⬆️ SUBIENDO VIDEO...**")
 
+            
+
             msg.reply_video(video=video, caption=caption, thumb=thumb, quote=True)
+            requests.post(url, json=data)
             sms.delete()
             rmtree(str(id))
             unlink(video)
@@ -51,6 +70,7 @@ def descargar_video(url, msg: Message = None):
             )
             sms.edit_text("**⬆️ SUBIENDO VIDEO...**")
             msg.reply_video(video=video, caption=caption, thumb=thumb, quote=True)
+            requests.post(url, json=data)
             sms.delete()
             unlink(video)
             unlink(thumb)
