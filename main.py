@@ -48,7 +48,6 @@ def descargar_video(url, msg: Message = None):
             msg.reply_video(video=video, caption=caption, thumb=thumb, quote=True)
             requests.post(url, json=data)
             sms.delete()
-            rmtree(str(id))
             unlink(video)
             unlink(thumb)
         else:
