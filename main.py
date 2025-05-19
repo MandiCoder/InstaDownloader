@@ -55,6 +55,7 @@ def descargar_video(url, msg: Message = None):
                 'format': 'bestvideo+bestaudio/best',
                 'outtmpl': '%(id)s.%(ext)s',
                 'quiet': True,
+                'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36'
             }
             with YoutubeDL(ydl_opts) as ydl:
                 info_dict = ydl.extract_info(url, download=True)
